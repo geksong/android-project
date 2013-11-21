@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">yimalaile</string>
+    <string name="app_name">yimalaile</string><string name="user_name">姓名</string><string name="placehold_name">请输入您的姓名</string><string name="user_date">上次月经结束时间</string>
 </resources>
