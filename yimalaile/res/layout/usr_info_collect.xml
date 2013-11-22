@@ -18,7 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/placehold_name"
-                android:id="@+id/editText" android:layout_gravity="center"/>
+                android:id="@+id/user_name_text" android:layout_gravity="center"/>
     </LinearLayout>
     <LinearLayout
             android:orientation="horizontal"
@@ -30,5 +30,21 @@
                 android:text="@string/user_date"
                 android:id="@+id/textView1"
                 android:textSize="20dp" android:textIsSelectable="false" android:gravity="center"/>
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:text="生理时间"
+                android:id="@+id/user_date_btn"
+                android:background="@drawable/shape_btn"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sure"
+                android:id="@+id/user_sure_btn" android:layout_marginTop="20dp"/>
     </LinearLayout>
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -46,4 +47,57 @@ public class DateChangeUtil {
             return null;
         }
     }
+
+    /**
+     * 获取当前年
+     * @param date
+     * @return
+     */
+    public static int getYear(Date date) {
+        if(null == date)
+            return 0;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.YEAR);
+    }
+
+    /**
+     * 获取一年的第几个月
+     * @param date
+     * @return
+     */
+    public static int getMonthOfYear(Date date) {
+        if(null == date)
+            return 0;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.MONTH);
+    }
+
+    /**
+     * 获取一月的第几天
+     * @param date
+     * @return
+     */
+    public static int getDayOfMonth(Date date) {
+        if(null == date)
+            return 0;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    /**
+     * 获取时间的秒数形式
+     * @param date
+     * @return
+     */
+    public static int getSeconds(Date date) {
+        if(null == date)
+            return 0;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return (int)(calendar.getTimeInMillis() / 1000);
+    }
+
 }
