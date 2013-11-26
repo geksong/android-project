@@ -48,7 +48,6 @@ public class YimalaileMainActivity extends Activity {
                 EditText dateEdit = (EditText)findViewById(R.id.date_edit);
                 String lastEndTime = DateChangeUtil.getDateString(dat, DatePattern.YYYY_MM_DD);
                 dateEdit.setText(lastEndTime);
-
             }catch(Exception e) {
                 Log.e("YimalaileMainActivity", e.getMessage());
             }finally {
