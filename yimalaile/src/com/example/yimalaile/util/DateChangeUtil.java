@@ -100,4 +100,18 @@ public class DateChangeUtil {
         return (int)(calendar.getTimeInMillis() / 1000);
     }
 
+    /**
+     * 获取时间
+     * @param seconds
+     * @return
+     */
+    public static Date getDateFromSeconds(int seconds) {
+        if(0 == seconds) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(seconds * 1000L);
+        return calendar.getTime();
+    }
+
 }

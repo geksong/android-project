@@ -66,6 +66,7 @@ public class CollectUserInfoActivity extends Activity {
                     bos = new BufferedWriter(fis);
                     String data = userName + "&&" + timeSec;
                     bos.write(data);
+                    bos.flush();
                 }catch(Exception e) {
                     Log.e("CollectUserInfoActivity",e.getMessage());
                 }finally {

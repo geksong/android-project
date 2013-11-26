@@ -8,12 +8,15 @@
             android:layout_width="wrap_content" android:layout_height="fill_parent"
             android:ellipsize="middle" android:focusableInTouchMode="false" android:text="姨妈来了"
             android:textColor="@color/white" android:clickable="false" android:background="@color/pink"></Button>
+    <!--
     <Button android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:id="@+id/button"
             android:background="@drawable/privew_button"
             android:padding="10dp"></Button>
+            -->
     <EditText android:id="@+id/date_edit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></EditText>
+            android:layout_height="wrap_content"
+            android:editable="true"></EditText>
 </LinearLayout>
