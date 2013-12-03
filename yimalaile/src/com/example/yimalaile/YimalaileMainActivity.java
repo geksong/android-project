@@ -9,7 +9,12 @@ import android.widget.EditText;
 import com.example.yimalaile.activity.CollectUserInfoActivity;
 import com.example.yimalaile.constants.Constants;
 import com.example.yimalaile.constants.DatePattern;
+import com.example.yimalaile.customexception.IOCloseException;
+import com.example.yimalaile.customexception.UserInfoLoadException;
+import com.example.yimalaile.pojo.UserInfo;
 import com.example.yimalaile.util.DateChangeUtil;
+import com.example.yimalaile.util.UserInfoHandle;
+import com.example.yimalaile.util.UserInfoLoader;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,42 +35,25 @@ public class YimalaileMainActivity extends Activity {
             requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
             setContentView(R.layout.main);
             getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);
-            FileReader fir = null;
-            BufferedReader br = null;
+            UserInfo userInfo = null;
             try {
-                fir = new FileReader(userInfoFile);
-                br = new BufferedReader(fir);
-                String userinfo = br.readLine();
-                if(null == userinfo) {
-                    userInfoFile.delete();
-                    //启动用户信息收集activity
-                    Intent intent = new Intent(this, CollectUserInfoActivity.class);
-                    startActivity(intent);
-                    return;
-                }
-                int time = Integer.parseInt(userinfo.split("&&")[1]);
-                Date dat = DateChangeUtil.getDateFromSeconds(time);
+                userInfo = UserInfoLoader.load(userInfoFile);
+            } catch (UserInfoLoadException e) {
+                Log.e("YimalaileMainActivity", e.getMessage());
+            } catch (IOCloseException e) {
+                Log.e("YimalaileMainActivity", e.getMessage());
+            }
+            if(null == userInfo) {
+                startCollectUserInfoAct();
+            }else {
+                Date dat = DateChangeUtil.getDateFromSeconds(userInfo.getLastStopTime());
                 EditText dateEdit = (EditText)findViewById(R.id.date_edit);
                 String lastEndTime = DateChangeUtil.getDateString(dat, DatePattern.YYYY_MM_DD);
                 dateEdit.setText(lastEndTime);
-            }catch(Exception e) {
-                Log.e("YimalaileMainActivity", e.getMessage());
-            }finally {
-                try {
-                    if(null != fir) {
-                        fir.close();
-                    }
-                    if(null != br) {
-                        br.close();
-                    }
-                }catch(Exception e1) {
-                    Log.e("YimalaileMainActivity", e1.getMessage());
-                }
+                UserInfoHandle.instance().setUserInfo(userInfo);
             }
         }else {
-            //启动用户信息收集activity
-            Intent intent = new Intent(this, CollectUserInfoActivity.class);
-            startActivity(intent);
+            startCollectUserInfoAct();
         }
     }
 
@@ -87,5 +75,11 @@ public class YimalaileMainActivity extends Activity {
         }catch(Exception e) {
             Log.e("YimalaileMainActivity", "用户信息文件读取错误" + e.getMessage());
         }
+    }
+
+    private void startCollectUserInfoAct() {
+        //启动用户信息收集activity
+        Intent intent = new Intent(this, CollectUserInfoActivity.class);
+        startActivity(intent);
     }
 }

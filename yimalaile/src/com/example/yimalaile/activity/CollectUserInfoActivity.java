@@ -13,7 +13,12 @@ import android.widget.EditText;
 import com.example.yimalaile.R;
 import com.example.yimalaile.constants.Constants;
 import com.example.yimalaile.constants.DatePattern;
+import com.example.yimalaile.customexception.IOCloseException;
+import com.example.yimalaile.customexception.UserInfoLoadException;
+import com.example.yimalaile.pojo.UserInfo;
 import com.example.yimalaile.util.DateChangeUtil;
+import com.example.yimalaile.util.UserInfoHandle;
+import com.example.yimalaile.util.UserInfoLoader;
 
 import java.io.*;
 import java.util.Calendar;
@@ -56,27 +61,19 @@ public class CollectUserInfoActivity extends Activity {
         View.OnClickListener sureOnClickListener = new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                FileWriter fis = null;
-                BufferedWriter bos = null;
+                String userName = userNameText.getText().toString();
+                String dateTime = String.valueOf(button.getText());
+                int timeSec = DateChangeUtil.getSeconds(DateChangeUtil.stringToDate(dateTime, DatePattern.YYYY_MM_DD));
+                UserInfo userInfo = new UserInfo();
+                userInfo.setName(userName);
+                userInfo.setLastStopTime(timeSec);
+                UserInfoHandle.instance().setUserInfo(userInfo);
                 try {
-                    String userName = userNameText.getText().toString();
-                    String dateTime = String.valueOf(button.getText());
-                    int timeSec = DateChangeUtil.getSeconds(DateChangeUtil.stringToDate(dateTime, DatePattern.YYYY_MM_DD));
-                    fis = new FileWriter(file);
-                    bos = new BufferedWriter(fis);
-                    String data = userName + "&&" + timeSec;
-                    bos.write(data);
-                    bos.flush();
-                }catch(Exception e) {
-                    Log.e("CollectUserInfoActivity",e.getMessage());
-                }finally {
-                    try {
-                        fis.close();
-                        bos.close();
-                    }catch(Exception e) {
-                        Log.e("CollectUserInfoActivity", e.getMessage());
-                    }
-                    finish();
+                    UserInfoLoader.write(userInfo, file);
+                } catch (UserInfoLoadException e) {
+                    Log.e("CollectUserInfoActivity", e.getMessage());
+                } catch (IOCloseException e) {
+                    Log.e("CollectUserInfoActivity", e.getMessage());
                 }
             }
         };
